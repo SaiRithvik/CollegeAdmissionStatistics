@@ -2,8 +2,14 @@ introduction
 proposal
 research-topic
 data-availability
-data
+selection-of-data-source
+data-collection-process
+data-format
+data-extraction
+data-quality
 sources
+data
+sources-1
 cleaning-transformation
 missing-value-analysis
 results
