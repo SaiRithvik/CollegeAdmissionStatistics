@@ -1,6 +1,6 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAMES HERE"
+title: "College Admission Statistics"
+author: "Saili Myana, Sai Rithvik Kanakamedala"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
