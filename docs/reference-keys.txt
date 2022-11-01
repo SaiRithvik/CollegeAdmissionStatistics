@@ -9,3 +9,10 @@ missing-value-analysis
 results
 interactive-component
 conclusion
+data-source
+selection-of-data-source
+data-collection-process
+data-format
+data-extraction
+data-quality
+sources-1

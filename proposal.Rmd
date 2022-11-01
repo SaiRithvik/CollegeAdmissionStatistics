@@ -1,6 +1,58 @@
 # Proposal
 
 ## Research topic
+We started with a question - How do we select the ideal college for our higher education?
+Both of us being International students, the university shortlisting process of applying for higher education was grueling. We grappled with the question of selecting the best university according to our needs and, further, what are our chances of getting into such universities. 
+
+
+For this purpose, it is common to use rankings given by reputed organizations based on academics or even other rankings based on Return on Investments. Nonetheless, these rankings aren’t extensive enough to meet our precise requirements, and we end up doing our own research.
+This leads us to our research topic, “Comparing college statistics.”
+
+
+The project can be unraveled into a two-pronged problem: 
+
+1. How do colleges compare in terms of academic resources, research, finances, and other factors impacting the competitiveness of a university?
+2. How do admitted students of top colleges compare? 
+
+
+For the first part, we analyze the data of tuition fees, financial aid given, number of applicants, application requirements (GPA/recommendations/secondary schools), acceptance rate, library sizes, number of programs offered, student-to-faculty ratios, graduation rates, and other factors.
+For the second part, we analyze the SAT and ACT test scores of admitted students along with the student demographics (gender, race/ethnicity) for different degree levels.
+
 
 ## Data availability
+
+### Selection of Data Source
+For our project, we searched for US colleges statistics as we focused on US colleges' admission process.
+We decided to analyze Integrated Postsecondary Education Data System (IPEDS) data from the National Center for Education Statistics (NCES), which contains all the college-level information we need.
+This is collected by NCES for all colleges in the US, hence we decided this is reliable and adequate data for our analysis. 
+The other datasets we found were subsets of this data. This was the most extensive dataset that could be used to analyze, explore and visualize, to answer our question of “How do we select the ideal college for our higher education?”
+We also use the US News college rankings to further analyze top colleges' statistics. There are many rankings based on different criteria that are not too different from each other. This source for ranking can be replaced with any other.
+
+### Data Collection Process
+The U.S. Department of Education's National Center for Education Statistics (NCES) maintains the Integrated Postsecondary Education Data System (IPEDS). The IPEDS Data is collected annually by conducting multiple interrelated surveys of about 6400 colleges and universities that participate in the federal student aid program. We are using 2019-20 data for our project. This data is updated every year.
+
+### Data Format
+The yearly data is available in a Microsoft Access Database format, where the file contains multiple tables that contain information on admissions statistics.
+We also have the metadata tables that clearly explain each data table, its variable names, and the data types.
+The categorical variables are numerically encoded, and the descriptions of the encoding are also present in the dataset.
+
+### Data Extraction
+The data for each year is present on the [NCES website](https://nces.ed.gov/ipeds/use-the-data/download-access-database) in the form of zipped files. We can download the Access database for each year by clicking on the links that are available on the above website and extracting the files from the zipped folder.
+After downloading the access file, which contains multiple tables, we can do the following steps to extract the data into R studio from the Access database:
+
+1. Open a new excel spreadsheet and go to the Data section
+2. In the Data Section, select From Access and then select the access file and the tables you want to export to the Excel/CSV file.
+
+As the data is updated every year, we can download the yearly data from the NCES website and follow the same steps above to extract the data into (Excel spreadsheets or CSV files) and use RStudio to perform Exploratory Data Analysis and Visualization. The pipeline of this workflow is easily reproducible for future years, and hence we chose this method to extract our data.
+
+### Data Quality
+For each year, NCES releases the data twice - the first being provisional data and then the final data. The provisional data has been said to undergo all the NCES data quality control procedures. This is released after each year. The final data includes the revisions institutions make. This is released after two years.
+
+Since the data itself is collected from surveys answered by institutions, there is an inherent unsureness/skepticism about the correctness of the data. As we saw this year, Columbia University acknowledged giving false data for the US News ranking, attributing it to outdated methodologies. For our purpose, we assume the correctness of the data reported in surveys.
+
+We can contact [NCES](https://nces.ed.gov/help/webmail/) if we have any questions about the data that is collected. 
+
+### Sources
+1. https://nces.ed.gov/ipeds/use-the-data/download-access-database
+2. https://www.washingtonpost.com/education/2022/09/09/columbia-usnews-college-ranking/
 
