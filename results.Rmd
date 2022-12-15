@@ -1,1 +1,138 @@
 # Results
+
+```{r}
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+library(RODBC)
+library(reshape2)
+library(MASS)
+library(plotly)
+library(gtable)
+library(usmap)
+library(ggplot2)
+library(choroplethr)
+library(choroplethrMaps)
+```
+
+
+```{r}
+adm2019 <- read.csv("./Data/adm2019.csv")
+ic2019_ay <- read.csv("./Data/ic2019_ay.csv")
+sfa1819_p1 <- read.csv("./Data/sfa1819_p1.csv")
+drvgr2019_A <- read.csv("./Data/drvgr2019_A.csv")
+drvgr2019_B <- read.csv("./Data/drvgr2019_B.csv")
+ic2019 <- read.csv("./Data/ic2019.csv")
+hd2019 <- read.csv("./Data/hd2019.csv")
+```
+
+
+
+```{r}
+g1 <- ggplot(ic2019_ay, aes(CHG3AY3)) + geom_histogram(col=I("black")) + xlab("Out-of-state tuition and fees in 2019-20
+") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+g2 <- ggplot(ic2019_ay, aes(CHG2AY3)) + geom_histogram(col=I("black")) + xlab("In-state tuition and fees in 2019-20
+") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+
+g1
+g2
+
+
+
+#target <- ic2019_ay$CHG3AY3
+
+new_unitid <- filter(hd2019, UNITID %in% ic2019_ay$UNITID)
+#new_unitid
+new_unitid <- new_unitid[order(new_unitid$UNITID),]
+#new_unitid
+
+states <- new_unitid$STABBR
+UNITID <- new_unitid$UNITID
+
+ic2019_ay <- ic2019_ay[order(ic2019_ay$UNITID),]
+
+ic2019_ay['STABBR'] <- states
+
+
+#ic2019_ay
+
+
+avg_instate <- aggregate(CHG3AY3 ~ STABBR, ic2019_ay, mean)
+avg_outstate <- aggregate(CHG2AY3 ~ STABBR, ic2019_ay, mean)
+
+#avg_outstate
+
+DF <- state.x77 %>% as.data.frame() %>% 
+   rownames_to_column("state") #%>%
+   #transmute(region = tolower(`state`), value = Illiteracy)
+
+#View(DF)
+real_states <- state.abb[match(DF$state,state.name)]
+
+#real_states
+#View(DF)
+DF$state <- real_states
+#View(DF)
+
+new_states <- filter(avg_outstate, STABBR %in% DF$state)
+new_states2 <- filter(avg_instate, STABBR %in% DF$state)
+#View(new_states)
+
+new_states <- new_states[order(new_states$STABBR),]
+new_states2 <- new_states2[order(new_states2$STABBR),]
+DF <- DF[order(DF$state),]
+#View(new_states)
+#View(DF)
+
+
+state_names <- state.name[match(new_states$STABBR, state.abb)] 
+state_names2 <- state.name[match(new_states2$STABBR, state.abb)] 
+#state_names
+new_states$STABBR <- state_names
+new_states2$STABBR <- state_names2 
+#View(new_states)
+
+new_states <- new_states %>%  
+   rownames_to_column("region") %>%
+   transmute(region = tolower(`STABBR`), value = CHG2AY3)
+
+new_states2 <- new_states2 %>%  
+   rownames_to_column("region") %>%
+   transmute(region = tolower(`STABBR`), value = CHG3AY3)
+
+
+
+
+state_choropleth(new_states,
+                 title = "College expenses for out-of-state students",
+                 legend = "USD")
+
+state_choropleth(new_states2,
+                 title = "College expenses for in-state students",
+                 legend = "USD")
+
+```
+
+
+```{r}
+g1 <- ggplot(drvgr2019_A, aes(drvgr2019_A$GRRTM, drvgr2019_A$GRRTW))+ geom_point() + xlab("Graduation rate, men") + ylab("Graduation rate, women")
+g1
+#g1 + geom_smooth(aes(drvgr2019$GRRTM, drvgr2019$GBA4RTT, colour='Graduation rate  within 4 years')) + scale_colour_manual(name="legend", values=c("blue"))
+
+g3 <- ggplot(drvgr2019_B, aes(drvgr2019_B$GBA4RTT)) + geom_histogram(bins = 20) + xlab("Graduation rate - Bachelor degree within 4 years, total
+")
+g3
+
+```
+
+
+
+```{r}
+ggplot(sfa1819_p1, aes(sfa1819_p1$IGRNT_A, sfa1819_p1$IGRNT_N)) + geom_point(size = 1)
+
+```
+
+We can observe that the colleges that award grant aid to large number of students tend to give a lower amount of aid and colleges that give high amount of aid, award grants to low number of students.

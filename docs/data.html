@@ -23,7 +23,7 @@
 <meta name="author" content="Saili Myana, Sai Rithvik Kanakamedala" />
 
 
-<meta name="date" content="2022-11-01" />
+<meta name="date" content="2022-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,70 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -118,12 +182,260 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources-1" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The U.S. Department of Education’s National Center for Education Statistics (NCES) collects the data annually.</p>
+<p>It is collected by conducting several interrelated surveys from about 6,400 colleges, universities, and technical and vocational institutions that participate in the federal student aid programs.</p>
+<p>Basic information about the dataset:</p>
+<p>We have a Microsoft access database which contains multiple csv files. We use some of the files to analyze and draw conclusions to answer our question.</p>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="data.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-3"><a href="data.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-4"><a href="data.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="data.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb1-6"><a href="data.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RODBC)</span>
+<span id="cb1-7"><a href="data.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-8"><a href="data.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-9"><a href="data.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-10"><a href="data.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtable)</span>
+<span id="cb1-11"><a href="data.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usmap)</span>
+<span id="cb1-12"><a href="data.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-13"><a href="data.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(choroplethr)</span>
+<span id="cb1-14"><a href="data.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(choroplethrMaps)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data.html#cb2-1" aria-hidden="true" tabindex="-1"></a>DRIVERINFO <span class="ot">&lt;-</span> <span class="st">&quot;Driver={Microsoft Access Driver (*.mdb, *.accdb)};&quot;</span></span>
+<span id="cb2-2"><a href="data.html#cb2-2" aria-hidden="true" tabindex="-1"></a>MDBPATH <span class="ot">&lt;-</span> <span class="st">&quot;C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">kanak</span><span class="sc">\\</span><span class="st">Desktop</span><span class="sc">\\</span><span class="st">EDAV Final Project</span><span class="sc">\\</span><span class="st">Data</span><span class="sc">\\</span><span class="st">IPEDS201920.accdb&quot;</span></span>
+<span id="cb2-3"><a href="data.html#cb2-3" aria-hidden="true" tabindex="-1"></a>PATH <span class="ot">&lt;-</span> <span class="fu">paste0</span>(DRIVERINFO, <span class="st">&quot;DBQ=&quot;</span>, MDBPATH)</span>
+<span id="cb2-4"><a href="data.html#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="data.html#cb2-5" aria-hidden="true" tabindex="-1"></a>channel <span class="ot">&lt;-</span> <span class="fu">odbcDriverConnect</span>(PATH)</span>
+<span id="cb2-6"><a href="data.html#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="data.html#cb2-7" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> <span class="fu">sqlQuery</span>(channel,</span>
+<span id="cb2-8"><a href="data.html#cb2-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;SELECT * FROM [ADM2019];&quot;</span>,</span>
+<span id="cb2-9"><a href="data.html#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-10"><a href="data.html#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="data.html#cb2-11" aria-hidden="true" tabindex="-1"></a>hd2019 <span class="ot">&lt;-</span> <span class="fu">sqlQuery</span>(channel,</span>
+<span id="cb2-12"><a href="data.html#cb2-12" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;SELECT * FROM [HD2019];&quot;</span>,</span>
+<span id="cb2-13"><a href="data.html#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-14"><a href="data.html#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="data.html#cb2-15" aria-hidden="true" tabindex="-1"></a>ic2019_ay <span class="ot">&lt;-</span> <span class="fu">sqlQuery</span>(channel,</span>
+<span id="cb2-16"><a href="data.html#cb2-16" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;SELECT * FROM [IC2019_AY];&quot;</span>,</span>
+<span id="cb2-17"><a href="data.html#cb2-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-18"><a href="data.html#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="data.html#cb2-19" aria-hidden="true" tabindex="-1"></a>sfa1819_p1 <span class="ot">&lt;-</span> <span class="fu">sqlQuery</span>(channel,</span>
+<span id="cb2-20"><a href="data.html#cb2-20" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;SELECT * FROM [SFA1819_P1];&quot;</span>,</span>
+<span id="cb2-21"><a href="data.html#cb2-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-22"><a href="data.html#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="data.html#cb2-23" aria-hidden="true" tabindex="-1"></a>drvgr2019 <span class="ot">&lt;-</span> <span class="fu">sqlQuery</span>(channel,</span>
+<span id="cb2-24"><a href="data.html#cb2-24" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;SELECT * FROM [DRVGR2019];&quot;</span>,</span>
+<span id="cb2-25"><a href="data.html#cb2-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-26"><a href="data.html#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="data.html#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="data.html#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="data.html#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="data.html#cb2-30" aria-hidden="true" tabindex="-1"></a>ic2019_ay <span class="ot">&lt;-</span> ic2019_ay[<span class="fu">c</span>(<span class="st">&#39;UNITID&#39;</span>, <span class="st">&#39;CHG3AY3&#39;</span>, <span class="st">&#39;CHG2AY3&#39;</span>)]</span>
+<span id="cb2-31"><a href="data.html#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="data.html#cb2-32" aria-hidden="true" tabindex="-1"></a>sfa1819_p1 <span class="ot">&lt;-</span> sfa1819_p1[<span class="fu">c</span>(<span class="st">&#39;UNITID&#39;</span>, <span class="st">&#39;IGRNT_N&#39;</span>, <span class="st">&#39;IGRNT_P&#39;</span>, <span class="st">&#39;IGRNT_A&#39;</span>)]</span>
+<span id="cb2-33"><a href="data.html#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="data.html#cb2-34" aria-hidden="true" tabindex="-1"></a>drvgr2019 <span class="ot">&lt;-</span> drvgr2019[<span class="fu">c</span>(<span class="st">&#39;UNITID&#39;</span>, <span class="st">&#39;GBA4RTT&#39;</span>, <span class="st">&#39;GRRTM&#39;</span>,<span class="st">&#39;GRRTW&#39;</span>)]</span>
+<span id="cb2-35"><a href="data.html#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="data.html#cb2-36" aria-hidden="true" tabindex="-1"></a>hd2019 <span class="ot">&lt;-</span> hd2019[<span class="fu">c</span>(<span class="st">&#39;UNITID&#39;</span>, <span class="st">&#39;INSTNM&#39;</span>, <span class="st">&#39;STABBR&#39;</span>)]</span></code></pre></div>
+<p>We use the odbcDriverConnect function from the RODBC library to transform the data from access database format into a usable dataframe in R. We didn’t require any data cleaning or transformation before EDA.</p>
 </div>
 <div id="missing-value-analysis" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Missing value analysis<a href="data.html#missing-value-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="data.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(adm2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="data.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## ACTEN25 ACTEN75 ACTMT25 ACTMT75 SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75  SATNUM  SATPCT  ACTNUM  ACTPCT ENRLPTM ENRLPTW  ENRLPT ENRLFTM 
+##     840     840     840     840     791     791     791     791     757     757     722     722     722     722     588     535     523     148 
+## ENRLFTW   ENRLM   ENRLW ADMSSNW ADMSSNM  ENRLFT   ENRLT  ADMSSN  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9 
+##     127     115     111     104      94      39      23      18       0       0       0       0       0       0       0       0       0       0 
+##  APPLCN APPLCNM APPLCNW 
+##       0       0       0</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(ic2019_ay)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="data.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## CHG3AY3 CHG2AY3  UNITID 
+##     458     458       0</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(sfa1819_p1)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="data.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## IGRNT_A IGRNT_N IGRNT_P  UNITID 
+##    1922     294     294       0</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(drvgr2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="data.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## GBA4RTT   GRRTW   GRRTM  UNITID 
+##    3499    1774    1773       0</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="data.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(hd2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="data.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## UNITID INSTNM STABBR 
+##      0      0      0</code></pre>
+<p>Duplicates</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="data.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(adm2019<span class="sc">$</span>UNITID))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(ic2019_ay<span class="sc">$</span>UNITID))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(sfa1819_p1<span class="sc">$</span>UNITID))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="data.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(drvgr2019<span class="sc">$</span>UNITID))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="data.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">duplicated</span>(hd2019<span class="sc">$</span>UNITID))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<p>Using plot_missing from redav library:
+(The function outputs a graph with overlapping axes and we were not able to read the x-labels. So we copy-pasted the code and rotated the x axis labels by 90 degrees, and changes the size of labels accordingly for our data)</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="data.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
+<span id="cb23-2"><a href="data.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(ic2019_ay)</span></code></pre></div>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="data.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(sfa1819_p1)</span></code></pre></div>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(drvgr2019)</span></code></pre></div>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="data.html#cb26-1" aria-hidden="true" tabindex="-1"></a>ic2019_ay <span class="ot">&lt;-</span> ic2019_ay <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="fu">colnames</span>(ic2019_ay))</span>
+<span id="cb26-2"><a href="data.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(ic2019_ay)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="data.html#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  UNITID CHG3AY3 CHG2AY3 
+##       0       0       0</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="data.html#cb28-1" aria-hidden="true" tabindex="-1"></a>sfa1819_p1 <span class="ot">&lt;-</span> sfa1819_p1 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="fu">colnames</span>(sfa1819_p1))</span>
+<span id="cb28-2"><a href="data.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(sfa1819_p1)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="data.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  UNITID IGRNT_N IGRNT_P IGRNT_A 
+##       0       0       0       0</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="data.html#cb30-1" aria-hidden="true" tabindex="-1"></a>drvgr2019_A <span class="ot">&lt;-</span> drvgr2019 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="fu">c</span>(<span class="st">&#39;UNITID&#39;</span>, <span class="st">&#39;GRRTW&#39;</span>, <span class="st">&#39;GRRTM&#39;</span>))</span>
+<span id="cb30-2"><a href="data.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(drvgr2019_A)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="data.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## GBA4RTT  UNITID   GRRTM   GRRTW 
+##    1763       0       0       0</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="data.html#cb32-1" aria-hidden="true" tabindex="-1"></a>drvgr2019_B <span class="ot">&lt;-</span> drvgr2019 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="st">&#39;GBA4RTT&#39;</span>)</span>
+<span id="cb32-2"><a href="data.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(drvgr2019_B)) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="data.html#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##   GRRTW   GRRTM  UNITID GBA4RTT 
+##     105      55       0       0</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="data.html#cb34-1" aria-hidden="true" tabindex="-1"></a>hd2019 <span class="ot">&lt;-</span> hd2019 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="fu">colnames</span>(hd2019))</span>
+<span id="cb34-2"><a href="data.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(hd2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="data.html#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## UNITID INSTNM STABBR 
+##      0      0      0</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ic2019_ay, <span class="st">&quot;./Data/ic2019_ay.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-2"><a href="data.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(sfa1819_p1, <span class="st">&quot;./Data/sfa1819_p1.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-3"><a href="data.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(drvgr2019_A, <span class="st">&quot;./Data/drvgr2019_A.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-4"><a href="data.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(drvgr2019_B, <span class="st">&quot;./Data/drvgr2019_B.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb36-5"><a href="data.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(hd2019, <span class="st">&quot;./Data/hd2019.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="data.html#cb37-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> adm2019</span>
+<span id="cb37-2"><a href="data.html#cb37-2" aria-hidden="true" tabindex="-1"></a>percent <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb37-3"><a href="data.html#cb37-3" aria-hidden="true" tabindex="-1"></a>na_count_all <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">is.na</span>(x)) <span class="sc">%&gt;%</span>    </span>
+<span id="cb37-4"><a href="data.html#cb37-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by_all</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb37-5"><a href="data.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(<span class="at">name =</span> <span class="st">&quot;count&quot;</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-6"><a href="data.html#cb37-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb37-7"><a href="data.html#cb37-7" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="st">&quot;pattern&quot;</span>) </span>
+<span id="cb37-8"><a href="data.html#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="data.html#cb37-9" aria-hidden="true" tabindex="-1"></a>na_count_all <span class="ot">&lt;-</span> na_count_all <span class="sc">%&gt;%</span> </span>
+<span id="cb37-10"><a href="data.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">pattern =</span> <span class="fu">factor</span>(.data<span class="sc">$</span>pattern, <span class="at">levels =</span> <span class="fu">nrow</span>(na_count_all)<span class="sc">:</span><span class="dv">1</span>))</span>
+<span id="cb37-11"><a href="data.html#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="data.html#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># count the number of columns with missing values; will be used later to determine if there&#39;s a &quot;none missing&quot; pattern  </span></span>
+<span id="cb37-13"><a href="data.html#cb37-13" aria-hidden="true" tabindex="-1"></a>na_count_all <span class="ot">&lt;-</span> na_count_all <span class="sc">%&gt;%</span>    </span>
+<span id="cb37-14"><a href="data.html#cb37-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rowwise</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb37-15"><a href="data.html#cb37-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">num_missing_cols =</span> <span class="fu">sum</span>(dplyr<span class="sc">::</span><span class="fu">c_across</span>(<span class="fu">where</span>(is.logical)))) </span>
+<span id="cb37-16"><a href="data.html#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="data.html#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co"># data frame for missing patterns bar chart </span></span>
+<span id="cb37-18"><a href="data.html#cb37-18" aria-hidden="true" tabindex="-1"></a>na_count_by_pattern <span class="ot">&lt;-</span> na_count_all[,<span class="fu">c</span>(<span class="st">&quot;pattern&quot;</span>, <span class="st">&quot;count&quot;</span>, <span class="st">&quot;num_missing_cols&quot;</span>)]</span>
+<span id="cb37-19"><a href="data.html#cb37-19" aria-hidden="true" tabindex="-1"></a>na_count_by_pattern<span class="sc">$</span>none_missing <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(na_count_by_pattern<span class="sc">$</span>num_missing_cols <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb37-20"><a href="data.html#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="data.html#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co"># data frame for missing by column bar chart    </span></span>
+<span id="cb37-22"><a href="data.html#cb37-22" aria-hidden="true" tabindex="-1"></a>na_count_by_column <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">is.na</span>(x)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb37-23"><a href="data.html#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colSums</span>() <span class="sc">%&gt;%</span>     </span>
+<span id="cb37-24"><a href="data.html#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span>   </span>
+<span id="cb37-25"><a href="data.html#cb37-25" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">&quot;var&quot;</span>, <span class="at">value =</span> <span class="st">&quot;count&quot;</span>)    </span>
+<span id="cb37-26"><a href="data.html#cb37-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-27"><a href="data.html#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy and sort na_count_all by column counts   </span></span>
+<span id="cb37-28"><a href="data.html#cb37-28" aria-hidden="true" tabindex="-1"></a>na_count_all_tidy <span class="ot">&lt;-</span> na_count_all <span class="sc">%&gt;%</span>   </span>
+<span id="cb37-29"><a href="data.html#cb37-29" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="fu">where</span>(is.logical), <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-30"><a href="data.html#cb37-30" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">factor</span>(.data<span class="sc">$</span>variable, <span class="at">levels =</span> na_count_by_column<span class="sc">$</span>var))  <span class="sc">%&gt;%</span>    </span>
+<span id="cb37-31"><a href="data.html#cb37-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">none_missing =</span> <span class="fu">ifelse</span>(.data<span class="sc">$</span>num_missing_cols <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))    </span>
+<span id="cb37-32"><a href="data.html#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-33"><a href="data.html#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="co"># main plot</span></span>
+<span id="cb37-34"><a href="data.html#cb37-34" aria-hidden="true" tabindex="-1"></a>main_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(na_count_all_tidy, ggplot2<span class="sc">::</span><span class="fu">aes</span>(.data<span class="sc">$</span>variable, .data<span class="sc">$</span>pattern, <span class="at">fill =</span> <span class="fu">factor</span>(.data<span class="sc">$</span>value), <span class="at">alpha =</span> .data<span class="sc">$</span>none_missing)) <span class="sc">+</span>  </span>
+<span id="cb37-35"><a href="data.html#cb37-35" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb37-36"><a href="data.html#cb37-36" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;grey70&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>)) <span class="sc">+</span>    </span>
+<span id="cb37-37"><a href="data.html#cb37-37" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(.<span class="dv">7</span>, <span class="dv">1</span>)) <span class="sc">+</span>  </span>
+<span id="cb37-38"><a href="data.html#cb37-38" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ylab</span>(<span class="st">&quot;missing pattern&quot;</span>) <span class="sc">+</span>    </span>
+<span id="cb37-39"><a href="data.html#cb37-39" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span>  </span>
+<span id="cb37-40"><a href="data.html#cb37-40" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_classic</span>(<span class="dv">12</span>)    <span class="sc">+</span></span>
+<span id="cb37-41"><a href="data.html#cb37-41" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>,<span class="at">size=</span><span class="dv">5</span>), <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>))</span>
+<span id="cb37-42"><a href="data.html#cb37-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-43"><a href="data.html#cb37-43" aria-hidden="true" tabindex="-1"></a><span class="co"># check for &quot;none missing&quot; pattern</span></span>
+<span id="cb37-44"><a href="data.html#cb37-44" aria-hidden="true" tabindex="-1"></a>none_missing_pattern <span class="ot">&lt;-</span> na_count_by_pattern <span class="sc">%&gt;%</span></span>
+<span id="cb37-45"><a href="data.html#cb37-45" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(.data<span class="sc">$</span>none_missing) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(.data<span class="sc">$</span>pattern)</span>
+<span id="cb37-46"><a href="data.html#cb37-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="data.html#cb37-47" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(none_missing_pattern) <span class="sc">&gt;</span> <span class="dv">0</span>) { </span>
+<span id="cb37-48"><a href="data.html#cb37-48" aria-hidden="true" tabindex="-1"></a>  main_plot <span class="ot">&lt;-</span> main_plot <span class="sc">+</span>  </span>
+<span id="cb37-49"><a href="data.html#cb37-49" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> (<span class="fu">ncol</span>(na_count_all)<span class="sc">-</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">2</span>, </span>
+<span id="cb37-50"><a href="data.html#cb37-50" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">nrow</span>(na_count_all) <span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(none_missing_pattern)),   </span>
+<span id="cb37-51"><a href="data.html#cb37-51" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> <span class="st">&quot;complete cases&quot;</span>, <span class="at">size=</span><span class="fl">1.7</span>)    </span>
+<span id="cb37-52"><a href="data.html#cb37-52" aria-hidden="true" tabindex="-1"></a>}   </span>
+<span id="cb37-53"><a href="data.html#cb37-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-54"><a href="data.html#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="co"># margin plots</span></span>
+<span id="cb37-55"><a href="data.html#cb37-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-56"><a href="data.html#cb37-56" aria-hidden="true" tabindex="-1"></a>denom <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(percent, <span class="fu">nrow</span>(x)<span class="sc">/</span><span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb37-57"><a href="data.html#cb37-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-58"><a href="data.html#cb37-58" aria-hidden="true" tabindex="-1"></a>missing_by_column_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(na_count_by_column, ggplot2<span class="sc">::</span><span class="fu">aes</span>(forcats<span class="sc">::</span><span class="fu">fct_inorder</span>(.data<span class="sc">$</span>var), .data<span class="sc">$</span>count<span class="sc">/</span>denom)) <span class="sc">+</span>   </span>
+<span id="cb37-59"><a href="data.html#cb37-59" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;cornflowerblue&quot;</span>, <span class="at">alpha =</span> .<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb37-60"><a href="data.html#cb37-60" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb37-61"><a href="data.html#cb37-61" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-62"><a href="data.html#cb37-62" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ylab</span>(<span class="fu">ifelse</span>(percent, <span class="st">&quot;% rows </span><span class="sc">\n</span><span class="st"> missing:&quot;</span>, <span class="st">&quot;num rows </span><span class="sc">\n</span><span class="st"> missing:&quot;</span>)) <span class="sc">+</span>    </span>
+<span id="cb37-63"><a href="data.html#cb37-63" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_linedraw</span>(<span class="dv">12</span>) <span class="sc">+</span>     </span>
+<span id="cb37-64"><a href="data.html#cb37-64" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(), </span>
+<span id="cb37-65"><a href="data.html#cb37-65" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>), <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">4</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>)) </span>
+<span id="cb37-66"><a href="data.html#cb37-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-67"><a href="data.html#cb37-67" aria-hidden="true" tabindex="-1"></a>missing_by_pattern_plot <span class="ot">&lt;-</span> </span>
+<span id="cb37-68"><a href="data.html#cb37-68" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(na_count_by_pattern, ggplot2<span class="sc">::</span><span class="fu">aes</span>(.data<span class="sc">$</span>pattern, .data<span class="sc">$</span>count<span class="sc">/</span>denom, <span class="at">alpha =</span> .data<span class="sc">$</span>none_missing)) <span class="sc">+</span></span>
+<span id="cb37-69"><a href="data.html#cb37-69" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;cornflowerblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-70"><a href="data.html#cb37-70" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb37-71"><a href="data.html#cb37-71" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">n.breaks =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb37-72"><a href="data.html#cb37-72" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(.<span class="dv">7</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb37-73"><a href="data.html#cb37-73" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-74"><a href="data.html#cb37-74" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ylab</span>(<span class="fu">ifelse</span>(percent, <span class="st">&quot;% rows&quot;</span>, <span class="st">&quot;row count&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb37-75"><a href="data.html#cb37-75" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">guides</span>(<span class="at">alpha =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-76"><a href="data.html#cb37-76" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_linedraw</span>(<span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb37-77"><a href="data.html#cb37-77" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(), </span>
+<span id="cb37-78"><a href="data.html#cb37-78" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.y =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">4</span>),<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">5</span>), <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>))</span>
+<span id="cb37-79"><a href="data.html#cb37-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-80"><a href="data.html#cb37-80" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (percent) {  </span>
+<span id="cb37-81"><a href="data.html#cb37-81" aria-hidden="true" tabindex="-1"></a>  missing_by_column_plot <span class="ot">&lt;-</span> missing_by_column_plot <span class="sc">+</span></span>
+<span id="cb37-82"><a href="data.html#cb37-82" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">n.breaks =</span> <span class="dv">5</span>,</span>
+<span id="cb37-83"><a href="data.html#cb37-83" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))  </span>
+<span id="cb37-84"><a href="data.html#cb37-84" aria-hidden="true" tabindex="-1"></a>  missing_by_pattern_plot <span class="ot">&lt;-</span> missing_by_pattern_plot <span class="sc">+</span></span>
+<span id="cb37-85"><a href="data.html#cb37-85" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">n.breaks =</span> <span class="dv">5</span>,</span>
+<span id="cb37-86"><a href="data.html#cb37-86" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))  </span>
+<span id="cb37-87"><a href="data.html#cb37-87" aria-hidden="true" tabindex="-1"></a>}   </span>
+<span id="cb37-88"><a href="data.html#cb37-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-89"><a href="data.html#cb37-89" aria-hidden="true" tabindex="-1"></a>missing_by_column_plot <span class="sc">+</span> patchwork<span class="sc">::</span><span class="fu">plot_spacer</span>() <span class="sc">+</span>     </span>
+<span id="cb37-90"><a href="data.html#cb37-90" aria-hidden="true" tabindex="-1"></a>  main_plot <span class="sc">+</span> missing_by_pattern_plot <span class="sc">+</span>     </span>
+<span id="cb37-91"><a href="data.html#cb37-91" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span></code></pre></div>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+ENRLT is the total number of enrolled students, and ENRLM is the total number of enrolled men; the rows starting with SAT and ACT give the 25th percentile and 75th percentile scores in tests, and these are a main part of our analysis. Without these values, we cannot form meaningful hypotheses, so we are removing the schools that didn’t provide these data.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="data.html#cb38-1" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> adm2019 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="fu">c</span>(ENRLT,ENRLM,SATVR25,SATVR75,SATMT25,SATMT75,ACTCM25,ACTCM75,ACTEN25,ACTEN75,ACTMT25,ACTMT75))</span>
+<span id="cb38-2"><a href="data.html#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="data.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(adm2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="data.html#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## ENRLPTM ENRLPTW  ENRLPT   ENRLW ENRLFTM ENRLFTW ADMSSNW  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN 
+##     187     186     184       3       3       3       2       0       0       0       0       0       0       0       0       0       0       0 
+## APPLCNM APPLCNW  ADMSSN ADMSSNM   ENRLT   ENRLM  ENRLFT  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
+## ACTEN75 ACTMT25 ACTMT75 
+##       0       0       0</code></pre>
+<p>The majority missing values are in Part time student enrollment statistics. These are not very pertinent to our analysis, so we are dropping these columns. Enrollment of men and total enrollment determine the women enrollment, so dropping this column too, and calculating it using (Total enrollment - men enrollment) instead. After this, only missing values are 3 rows in full-time enrollment of men. These 3 rows are dropped to get a cleaned dataframe.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="data.html#cb40-1" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> <span class="fu">select</span>(adm2019, <span class="sc">-</span>ENRLPTM)</span>
+<span id="cb40-2"><a href="data.html#cb40-2" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> <span class="fu">select</span>(adm2019, <span class="sc">-</span>ENRLPTW)</span>
+<span id="cb40-3"><a href="data.html#cb40-3" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> <span class="fu">select</span>(adm2019, <span class="sc">-</span>ENRLPT)</span>
+<span id="cb40-4"><a href="data.html#cb40-4" aria-hidden="true" tabindex="-1"></a>adm2019<span class="sc">$</span>ENRLW <span class="ot">=</span> adm2019<span class="sc">$</span>ENRLT <span class="sc">-</span> adm2019<span class="sc">$</span>ENRLM</span>
+<span id="cb40-5"><a href="data.html#cb40-5" aria-hidden="true" tabindex="-1"></a>adm2019<span class="sc">$</span>ADMSSNW <span class="ot">=</span> adm2019<span class="sc">$</span>ADMSSN <span class="sc">-</span> adm2019<span class="sc">$</span>ADMSSNM</span>
+<span id="cb40-6"><a href="data.html#cb40-6" aria-hidden="true" tabindex="-1"></a>adm2019 <span class="ot">&lt;-</span> adm2019 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(ENRLFTM)</span>
+<span id="cb40-7"><a href="data.html#cb40-7" aria-hidden="true" tabindex="-1"></a>adm2019<span class="sc">$</span>ENRLFTW <span class="ot">=</span> adm2019<span class="sc">$</span>ENRLFT <span class="sc">-</span> adm2019<span class="sc">$</span>ENRLFTM</span>
+<span id="cb40-8"><a href="data.html#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(adm2019)) <span class="sc">%&gt;%</span></span>
+<span id="cb40-9"><a href="data.html#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN APPLCNM APPLCNW  ADMSSN ADMSSNM ADMSSNW   ENRLT   ENRLM 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
+##   ENRLW  ENRLFT ENRLFTM ENRLFTW  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 ACTEN75 ACTMT25 ACTMT75 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="data.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(adm2019, <span class="st">&quot;./Data/adm2019.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>There are tables that have processed admission statistics like percent yields in admission for each gender, but we are using the raw data collected from the survey and analyzing.</p>
 
 </div>
 </div>
