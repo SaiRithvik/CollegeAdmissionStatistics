@@ -19,6 +19,7 @@ library(usmap)
 library(ggplot2)
 library(choroplethr)
 library(choroplethrMaps)
+library(patchwork)
 ```
 
 
@@ -41,8 +42,8 @@ g1 <- ggplot(ic2019_ay, aes(CHG3AY3)) + geom_histogram(col=I("black")) + xlab("O
 g2 <- ggplot(ic2019_ay, aes(CHG2AY3)) + geom_histogram(col=I("black")) + xlab("In-state tuition and fees in 2019-20
 ") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
-g1
-g2
+
+g1 + g2 + plot_layout(ncol = 1)
 
 
 
@@ -126,9 +127,9 @@ g1 <- ggplot(drvgr2019_A, aes(drvgr2019_A$GRRTM, drvgr2019_A$GRRTW))+ geom_point
 g1
 #g1 + geom_smooth(aes(drvgr2019$GRRTM, drvgr2019$GBA4RTT, colour='Graduation rate  within 4 years')) + scale_colour_manual(name="legend", values=c("blue"))
 
-g3 <- ggplot(drvgr2019_B, aes(drvgr2019_B$GBA4RTT)) + geom_histogram(bins = 20) + xlab("Graduation rate - Bachelor degree within 4 years, total
+g3 <- ggplot(drvgr2019_B, aes(drvgr2019_B$GBA4RTT)) + geom_histogram(col=I("black"), bins = 20) + xlab("Graduation rate - Bachelor degree within 4 years, total
 ")
-g3
+g3 + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 ```
 
