@@ -7,3 +7,4 @@ site: bookdown::bookdown_site
 
 # Introduction
 
+Every year, thousand of students from all over the world apply to the universities in the US. 

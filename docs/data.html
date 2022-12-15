@@ -129,14 +129,12 @@
 </div>
 <div id="missing-value-analysis" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Missing value analysis<a href="data.html#missing-value-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<pre><code>## ACTEN25 ACTEN75 ACTMT25 ACTMT75 SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 
-##     840     840     840     840     791     791     791     791     757     757 
-##  SATNUM  SATPCT  ACTNUM  ACTPCT ENRLPTM ENRLPTW  ENRLPT ENRLFTM ENRLFTW   ENRLM 
-##     722     722     722     722     588     535     523     148     127     115 
-##   ENRLW ADMSSNW ADMSSNM  ENRLFT   ENRLT  ADMSSN  UNITID ADMCON1 ADMCON2 ADMCON3 
-##     111     104      94      39      23      18       0       0       0       0 
-## ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN APPLCNM APPLCNW 
-##       0       0       0       0       0       0       0       0       0</code></pre>
+<pre><code>## ACTEN25 ACTEN75 ACTMT25 ACTMT75 SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75  SATNUM  SATPCT  ACTNUM  ACTPCT ENRLPTM ENRLPTW  ENRLPT ENRLFTM 
+##     840     840     840     840     791     791     791     791     757     757     722     722     722     722     588     535     523     148 
+## ENRLFTW   ENRLM   ENRLW ADMSSNW ADMSSNM  ENRLFT   ENRLT  ADMSSN  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9 
+##     127     115     111     104      94      39      23      18       0       0       0       0       0       0       0       0       0       0 
+##  APPLCN APPLCNM APPLCNW 
+##       0       0       0</code></pre>
 <pre><code>## CHG3AY3 CHG2AY3  UNITID 
 ##     458     458       0</code></pre>
 <pre><code>## IGRNT_A IGRNT_N IGRNT_P  UNITID 
@@ -153,7 +151,7 @@
 <pre><code>## [1] 0</code></pre>
 <p>Using plot_missing from redav library:
 (The function outputs a graph with overlapping axes and we were not able to read the x-labels. So we copy-pasted the code and rotated the x axis labels by 90 degrees, and changes the size of labels accordingly for our data)</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
 <pre><code>##  UNITID CHG3AY3 CHG2AY3 
 ##       0       0       0</code></pre>
 <pre><code>##  UNITID IGRNT_N IGRNT_P IGRNT_A 
@@ -164,25 +162,19 @@
 ##     105      55       0       0</code></pre>
 <pre><code>## UNITID INSTNM STABBR 
 ##      0      0      0</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 ENRLT is the total number of enrolled students, and ENRLM is the total number of enrolled men; the rows starting with SAT and ACT give the 25th percentile and 75th percentile scores in tests, and these are a main part of our analysis. Without these values, we cannot form meaningful hypotheses, so we are removing the schools that didn’t provide these data.</p>
-<pre><code>## ENRLPTM ENRLPTW  ENRLPT   ENRLW ENRLFTM ENRLFTW ADMSSNW  UNITID ADMCON1 ADMCON2 
-##     187     186     184       3       3       3       2       0       0       0 
-## ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN APPLCNM APPLCNW 
-##       0       0       0       0       0       0       0       0       0       0 
-##  ADMSSN ADMSSNM   ENRLT   ENRLM  ENRLFT  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 
-##       0       0       0       0       0       0       0       0       0       0 
-## SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 ACTEN75 ACTMT25 ACTMT75 
-##       0       0       0       0       0       0       0       0       0</code></pre>
+<pre><code>## ENRLPTM ENRLPTW  ENRLPT   ENRLW ENRLFTM ENRLFTW ADMSSNW  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN 
+##     187     186     184       3       3       3       2       0       0       0       0       0       0       0       0       0       0       0 
+## APPLCNM APPLCNW  ADMSSN ADMSSNM   ENRLT   ENRLM  ENRLFT  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
+## ACTEN75 ACTMT25 ACTMT75 
+##       0       0       0</code></pre>
 <p>The majority missing values are in Part time student enrollment statistics. These are not very pertinent to our analysis, so we are dropping these columns. Enrollment of men and total enrollment determine the women enrollment, so dropping this column too, and calculating it using (Total enrollment - men enrollment) instead. After this, only missing values are 3 rows in full-time enrollment of men. These 3 rows are dropped to get a cleaned dataframe.</p>
-<pre><code>##  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9 
-##       0       0       0       0       0       0       0       0       0       0 
-##  APPLCN APPLCNM APPLCNW  ADMSSN ADMSSNM ADMSSNW   ENRLT   ENRLM   ENRLW  ENRLFT 
-##       0       0       0       0       0       0       0       0       0       0 
-## ENRLFTM ENRLFTW  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 
-##       0       0       0       0       0       0       0       0       0       0 
-## ACTCM25 ACTCM75 ACTEN25 ACTEN75 ACTMT25 ACTMT75 
-##       0       0       0       0       0       0</code></pre>
+<pre><code>##  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN APPLCNM APPLCNW  ADMSSN ADMSSNM ADMSSNW   ENRLT   ENRLM 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
+##   ENRLW  ENRLFT ENRLFTM ENRLFTW  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 ACTEN75 ACTMT25 ACTMT75 
+##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0</code></pre>
 <p>There are tables that have processed admission statistics like percent yields in admission for each gender, but we are using the raw data collected from the survey and analyzing.</p>
 
 </div>
