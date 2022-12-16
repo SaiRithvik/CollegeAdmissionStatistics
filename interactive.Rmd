@@ -15,12 +15,13 @@ write.csv( adm2019, "./Data/newadm2019.csv", row.names=FALSE)
 
 In the below interactive plot, you can select a data point around your SAT/ACT score. Hovering over nearby points will display the college name, and few of the admission requirements for the college. The legend to understand the requirements is below the plot. 
 
+(please ignore some mess around the plot, we are still debugging that)
 ```{r}
 library(r2d3)
 ```
 
 ```{d3 }
-<iframe src="edavd3.html" width="460" height="400"></iframe>
+<iframe src="./docs/edavd3.html" width="560" height="600"></iframe>
 ```
 
 
