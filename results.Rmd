@@ -18,6 +18,8 @@ library(ggplot2)
 library(choroplethr)
 library(choroplethrMaps)
 library(patchwork)
+library(vcd)
+library(GGally)
 ```
 
 
@@ -31,26 +33,244 @@ ic2019 <- read.csv("./Data/ic2019.csv")
 hd2019 <- read.csv("./Data/hd2019.csv")
 ```
 
-
+## Gender diversity Analysis
 
 ```{r}
-g1 <- ggplot(ic2019_ay, aes(CHG3AY3)) + geom_histogram(col=I("black")) + xlab("Out-of-state tuition and fees in 2019-20
-") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+adm2019$percentAPPLCNM <- adm2019$APPLCNM/adm2019$APPLCN
+adm2019$percentAPPLCNW <- adm2019$APPLCNW/adm2019$APPLCN
+p1 = ggplot(adm2019) +
+         geom_histogram(aes( percentAPPLCNM), alpha = 0.8, bins = 35,col=I("black")) +
+         xlab("Percentage of Men applicants") + theme_gray()+ggtitle("Gender diversity in applicants")
+p2 = ggplot(adm2019) +
+         geom_histogram(aes( percentAPPLCNW), alpha = 0.8,bins = 35,col=I("black")) +
+         xlab("Percentage of Women applicants") + theme_gray()
 
-g2 <- ggplot(ic2019_ay, aes(CHG2AY3)) + geom_histogram(col=I("black")) + xlab("In-state tuition and fees in 2019-20
-") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+adm2019$percentADMSSNM <- adm2019$ADMSSNM/adm2019$ADMSSN
+adm2019$percentADMSSNW <- adm2019$ADMSSNW/adm2019$ADMSSN
+p3 = ggplot(adm2019) +
+         geom_histogram(aes( percentADMSSNM), alpha = 0.8, bins = 35,col=I("black")) +
+         xlab("Percentage of admitted Men") + theme_gray()+ggtitle("Gender diversity in admitted students")
+p4 = ggplot(adm2019) +
+         geom_histogram(aes( percentADMSSNW), alpha = 0.8,bins = 35,col=I("black")) +
+         xlab("Percentage of admitted Women") + theme_gray()
+p1+p3+p2+p4+plot_layout(ncol = 2)
+```
+
+```{r}
+print("Average percentage of men applicants:")
+mean(adm2019$percentAPPLCNM)
+print("Average percentage of women applicants:")
+mean(adm2019$percentAPPLCNW)
+print("Average percentage of admitted men:")
+mean(adm2019$percentADMSSNM)
+print("Average percentage of admitted women:")
+mean(adm2019$percentADMSSNW)
+```
+
+This shows that gender distribution seen in applications is being carried forward to gender distribution in admitted students. This points to no bias in the college admission process. 
+In addition, we see that on average, percentage of women applicants is 57% as opposed to the 42%-43% in men, and this trend is carried onto the admitted students.
 
 
+## Acceptance rate
+
+
+When applying for colleges, one of the key principle is to not put all your eggs into one basket. We divide the colleges we apply into Reach, Fit and Safety colleges or you might have heard of Dream, Target and Safety schools. No matter what you call them, the principle is to increase your chances by applying strategically. For this purpose, we look at acceptance rates of different colleges. Acceptance rate of a college is the percent of students that are admitted out of the students that applied.
+
+```{r}
+adm2019$acc_rate <- adm2019$ADMSSN/adm2019$APPLCN
+adm2019$acc_rateM <- adm2019$ADMSSNM/adm2019$APPLCNM
+adm2019$acc_rateW <- adm2019$ADMSSNW/adm2019$APPLCNW
+p5 = ggplot(adm2019) +
+  geom_histogram(aes( acc_rate), alpha = 0.8, bins = 20,col=I("black")) +
+         xlab("Acceptance rate") + theme_gray()+ggtitle("Acceptance rate of colleges")
+p5
+
+```
+
+This shows that very few colleges have an acceptance rate below 25%, and these very selective schools are expected to be higher ranked colleges. We further analyse the admission statistics and college resources for these colleges againt the remaining colleges. These colleges are stored in a new dataframe acc20.
+The remaining schools have high acceptance rates, around 75%. Higher acceptance rate points to lower applications or higher admissions or both.
+
+```{r}
+acc20 <- adm2019[adm2019$acc_rate < 0.25,]
+sprintf('Only %s colleges have an acceptance rate below 25 percent.',toString(nrow(acc20)))
+```
+
+## Admission yield
+To compare colleges, we analysed the admission yield of each college. This is the percentage of students that enrolled at the college out of all students that were admitted. A higher admission yield means most students that are admitted end up enrolling at the college.
+
+```{r}
+
+adm2019$adm_yield <- adm2019$ENRLFT/adm2019$ADMSSN
+acc20 <- adm2019[adm2019$acc_rate < 0.25,]
+ggplot(adm2019)+
+  geom_point(aes(adm_yield,acc_rate))+
+  geom_point(data=acc20, aes(adm_yield,acc_rate,color='Top_colleges'))+
+  theme_gray()+
+  xlab("Admission yield")+
+  ylab("Acceptance rate")+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red'))+ggtitle("Acceptance rate vs Admission yield of colleges")
+```
+
+This plot shows that colleges with higher acceptance rate (probably higher rated colleges) have higher yield than most of the other colleges that are clustered around the yield of 20%. But yield also has a tradeoff with the cost of attendance of the univeristy. The admission yield is expected to be lower when the cost of attendance goes up. This is what we see when the colleges with lower acceptance rate have a lower yield than expected due to higher cost, and colleges with higher acceptance rate have a higher yield than expected due to lower costs. We will analyse costs of attendance in more details further in this project.
+
+## Test Scores
+
+Test scores are one of the most important statistic in ones application, to show their quantitative and verbal skillset. SAT and ACT are the two standardized tests that every highschooler takes. The cummulative 75th percentile scores in these tests for applicants to each college are reported in the survey. 
+
+First we analyse the SAT statistics of colleges, againt their acceptance rate.
+
+```{r}
+adm2019$SAT_75 <- adm2019$SATVR75 + adm2019$SATMT75
+acc20 <- adm2019[adm2019$acc_rate < 0.25,]
+ggplot(adm2019)+
+  geom_point(aes(SAT_75,acc_rate) ,size=0.8, color='black', show.legend=T)+
+  geom_point(data = acc20, aes(SAT_75,acc_rate, color="Top_colleges"), size=0.8, show.legend=T)+
+  theme_gray()+
+  xlab("SAT score of 75th percentile")+
+  ylab("Acceptance rate")+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red')) +ggtitle("Acceptance rate vs SAT scores of colleges")
+```
+
+This plot clearly shows two clusters, one where the average SAT scores are around 1200 for the majority of the colleges and a second smaller cluster above 1500 SAT score for the lower acceptance rate colleges. This supports our hypothesis earlier. The colleges with high SAT scores in the applicants pool are the top ranked colleges, that also have lower acceptance rates.
+The interactive component will further look at the SAT and ACT statistics for individual colleges.
+
+## Application requirements
+
+While deciding to apply to colleges, we first look at the requirements of the colleges we want to apply to. Our data has requirements for each colleges in 9 fields, Secondary school GPA, Secondary school rank, Secondary school record, Completion of college-preparatory program, Recommendations, Formal demonstration of competencies, Admission test scores and TOEFL (Test of English as a Foreign Language). We decided to analyse the 3 of these that are most important and analysed how they varied for different colleges.
+
+Req - Required
+Con - Considered but not required
+Rec - Recommended
+No - Neither required nor recommended
+
+```{r }
+tempdf <- adm2019
+tempdf$ADMCON7 <- if_else(c(adm2019$ADMCON7)==1,"Req","Con")
+
+tempdf$ADMCON2 <- cut(c(adm2019$ADMCON2), c(-Inf,1.1, 2.1, 3.1, 5.1), c("Req", "Rec","No","Con"))
+
+tempdf$ADMCON5 <- cut(c(adm2019$ADMCON5), c(-Inf,1.1, 2.1, 3.1, 5.1), c("Req", "Rec","No","Con"))
+counts3 <- tempdf %>%
+  group_by(ADMCON2, ADMCON5, ADMCON7) %>%
+  summarize(Freq = n()) %>%
+  ungroup() %>%
+  complete(ADMCON2, ADMCON5, ADMCON7, fill = list(Freq = 0))
+
+counts3$ADMCON5 <- fct_relevel(counts3$ADMCON5, "No","Con","Rec","Req")
+counts3$ADMCON2 <- fct_relevel(counts3$ADMCON2, "Req","Rec","Con","No")
+counts3$ADMCON7 <- fct_relevel(counts3$ADMCON7, "Req","Con")
+colnames(counts3) <- c("Secondary_School_Rank", "Recommendations", "Test_Scores", "Freq")
+
+vcd::mosaic(Recommendations ~ Secondary_School_Rank + Test_Scores, counts3,
+            direction = c("v", "v", "h"))
+
+```
+
+We see that test scores are either required or considered but not required. Hence, it is suggested that students submit their test scores to improve their chances of admission. For recommendations, it feels like similar proportion of the schools recommend and require it as those schools that dont require it. There are very few colleges that consider but don't require test scores and require secondary school rank. The portion of the mosaic plot corresponding to no requirement of test scores, recommendations, and secondary school rank is larger than expected.
+
+## Racial diversity analysis
+
+To understand the racial diversity of American Colleges, we visualized box plots for percentage of students of each race.
+
+Hisp - Hispanic
+AfrAm - Black or African American
+AmInd - American Indian or Alaska Native
+NatHaw - Native Hawaiian or Other Pacific Islander
+
+```{r}
+
+ef2019a$White <- ef2019a$EFWHITT / ef2019a$EFTOTLT
+ef2019a$NatHaw <- ef2019a$EFNHPIT / ef2019a$EFTOTLT
+ef2019a$Hisp <- ef2019a$EFHISPT / ef2019a$EFTOTLT
+ef2019a$AfrAm <- ef2019a$EFBKAAT / ef2019a$EFTOTLT
+ef2019a$Asian <- ef2019a$EFASIAT / ef2019a$EFTOTLT
+ef2019a$AmInd <- ef2019a$EFAIANT / ef2019a$EFTOTLT
+
+longef2019a <- pivot_longer(ef2019a[ef2019a$EFALEVEL == 1,],cols = c(36,37,38,39,40,41), names_to = "Race", values_to = "percent_students")
+
+
+ggplot(longef2019a, aes(y=reorder(Race, percent_students, median),x=percent_students)) +
+  geom_boxplot()+
+  theme_gray()+
+  xlab("Percentage of students")+
+  ylab("Race")+ggtitle("Percentage of students by race")
+
+```
+
+This shows that percent of students White is the majority, with the highest median. Hispanic and African American races are similar, and the next biggest proportion. Asian follows, with very small representation for American Indian, Alaskan Native, Native Hawaiian or Other Pacific Islander.
+
+Further, we analysed the racial diversity along with gender for an average american college. We did this by aggregating the percentage of students of each gender and race across all colleges.
+
+```{r}
+ef2019a$White_M <- ef2019a$EFWHITM / (ef2019a$EFTOTLM+1)
+ef2019a$NatHaw_M <- ef2019a$EFNHPIM / (ef2019a$EFTOTLM+1)
+ef2019a$Hisp_M <- ef2019a$EFHISPM / (ef2019a$EFTOTLM+1)
+ef2019a$AfrAm_M <- ef2019a$EFBKAAM / (ef2019a$EFTOTLM+1)
+ef2019a$Asian_M <- ef2019a$EFASIAM/ (ef2019a$EFTOTLM+1)
+ef2019a$AmInd_M <- ef2019a$EFAIANM / (ef2019a$EFTOTLM+1)
+
+ef2019a$White_W <- ef2019a$EFWHITW / (ef2019a$EFTOTLW+1)
+ef2019a$NatHaw_W <- ef2019a$EFNHPIW / (ef2019a$EFTOTLW+1)
+ef2019a$Hisp_W <- ef2019a$EFHISPW / (ef2019a$EFTOTLW+1)
+ef2019a$AfrAm_W <- ef2019a$EFBKAAW / (ef2019a$EFTOTLW+1)
+ef2019a$Asian_W <- ef2019a$EFASIAW / (ef2019a$EFTOTLW+1)
+ef2019a$AmInd_W <- ef2019a$EFAIANW / (ef2019a$EFTOTLW+1)
+
+
+longef2019a1 <- pivot_longer(ef2019a[ef2019a$EFALEVEL == 1,],cols = c(42,43,44,45,46,47,48,49,50,51,52,53), names_to = c("Race","gender"), names_sep = "_", values_to = "percent")
+
+
+agg_tbl <- longef2019a1 %>% group_by(Race, gender) %>% 
+  summarise(mean_percent=mean(percent),
+            .groups = 'drop')
+ggplot(agg_tbl, aes(fill=gender, y=mean_percent, x=Race)) + 
+    geom_bar(position="dodge", stat="identity")+
+  theme_gray()+
+  xlab("Race")+
+  ylab("Average percent")+ggtitle("Racial and gender diversity in an average American college")
+  
+```
+
+From this plot, we can see that men and women have the same diversity across all races, with women being slightly more in number than men in all races. This is consistent with our initial observation on gender diversity, with women being more in number than men on average, both in applicants and admitted students.
+
+## Student-Faculty Ratio
+Student to Faculty ratio is often an important metric to compare colleges, with colleges having a lower ratio being more student friendly than a higher ratio. We compared this ratio for the top colleges with lower acceptance rates as seen above, with ones that have a higher acceptance rate.
+
+```{r}
+ggplot(ef2019d) +
+  geom_histogram(aes( STUFACR), alpha = 0.8, bins = 35,col=I("black"))+
+  geom_point(data = ef2019d[ef2019d$UNITID %in% acc20$UNITID,],aes(0, x=STUFACR,color="Top_colleges"), alpha = 0.8, fill = "red", shape=23,size=1)+
+  theme_gray()+
+  xlab("Student-Faculty ratio")+
+  ylab("Count")+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red'))+ggtitle("Student-Faculty ratio of colleges")
+
+```
+
+Majority of the colleges have a ratio of around 20, with very few having a ratio above 40.
+As expected, the top colleges (with low acceptance rates) have low student-faculty ratios, showing that they have better resources for their students.
+
+
+## Cost of attendance analysis
+
+First, we compare the costs for in-state and out-of-state students.
+
+```{r}
+g1 <- ggplot(ic2019_ay, aes(CHG3AY3)) + geom_histogram(col=I("black")) +
+  geom_point(data = ic2019_ay[ic2019_ay$UNITID %in% acc20$UNITID,],aes(0, x=CHG3AY3, color="Top_colleges"), alpha = 0.8, fill = "red", shape=23,size=1) + xlab("Out-of-state tuition and fees in 2019-20") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme_gray()+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red'))+ylab("Count")+ggtitle("Cost of attendance: In-state and Out-of-state")
+
+
+g2 <- ggplot(ic2019_ay, aes(CHG2AY3)) + geom_histogram(col=I("black")) + geom_point(data = ic2019_ay[ic2019_ay$UNITID %in% acc20$UNITID,],aes(0, x=CHG2AY3, color="Top_colleges"), alpha = 0.8, fill = "red", shape=23,size=1)+ xlab("In-state tuition and fees in 2019-20") + scale_x_continuous(breaks = seq(0, 95000, 5000)) + theme_gray()+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red'))+ylab("Count")
 g1 + g2 + plot_layout(ncol = 1)
+```
+
+We observe that the cost of attendance for in-state students peaks at a clearly lower value than that for out-of-state students. This clearly favors applying for a few in-state colleges to have a lower cost option. 
+We can further observe that for the top colleges (with lower acceptance rates), both the in-state and out-of-state cost of attendance is high, other than a few outliers. Further, it looks like almost all high costing colleges are these top colleges. This is consistent with what we expect. The top colleges have higher tuition and fees that also acts as a barrier and causes them to have lower yields as we saw above.
 
 
+We now visualize the effect of geography (state of the college) on the cost of attendance.
+```{r}
 
-#target <- ic2019_ay$CHG3AY3
 
 new_unitid <- filter(hd2019, UNITID %in% ic2019_ay$UNITID)
-#new_unitid
 new_unitid <- new_unitid[order(new_unitid$UNITID),]
-#new_unitid
 
 states <- new_unitid$STABBR
 UNITID <- new_unitid$UNITID
@@ -60,52 +280,28 @@ ic2019_ay <- ic2019_ay[order(ic2019_ay$UNITID),]
 ic2019_ay['STABBR'] <- states
 
 
-#ic2019_ay
-
-
 avg_instate <- aggregate(CHG3AY3 ~ STABBR, ic2019_ay, mean)
 avg_outstate <- aggregate(CHG2AY3 ~ STABBR, ic2019_ay, mean)
 
-#avg_outstate
 
 DF <- state.x77 %>% as.data.frame() %>% 
-   rownames_to_column("state") #%>%
-   #transmute(region = tolower(`state`), value = Illiteracy)
-
-#View(DF)
+   rownames_to_column("state") 
 real_states <- state.abb[match(DF$state,state.name)]
 
-#real_states
-#View(DF)
 DF$state <- real_states
-#View(DF)
 
 new_states <- filter(avg_outstate, STABBR %in% DF$state)
-new_states2 <- filter(avg_instate, STABBR %in% DF$state)
-#View(new_states)
 
 new_states <- new_states[order(new_states$STABBR),]
-new_states2 <- new_states2[order(new_states2$STABBR),]
 DF <- DF[order(DF$state),]
-#View(new_states)
-#View(DF)
 
 
 state_names <- state.name[match(new_states$STABBR, state.abb)] 
-state_names2 <- state.name[match(new_states2$STABBR, state.abb)] 
-#state_names
 new_states$STABBR <- state_names
-new_states2$STABBR <- state_names2 
-#View(new_states)
 
 new_states <- new_states %>%  
    rownames_to_column("region") %>%
    transmute(region = tolower(`STABBR`), value = CHG2AY3)
-
-new_states2 <- new_states2 %>%  
-   rownames_to_column("region") %>%
-   transmute(region = tolower(`STABBR`), value = CHG3AY3)
-
 
 
 
@@ -113,29 +309,40 @@ state_choropleth(new_states,
                  title = "College expenses for out-of-state students",
                  legend = "USD")
 
-state_choropleth(new_states2,
-                 title = "College expenses for in-state students",
-                 legend = "USD")
-
 ```
 
+We see that states in the north-east have higher average costs of attendance. This maybe due to higher cost of living in NY and surrounding areas. West-cost and east-coast have similar costs with colleges in central America having the lowest costs. This is also a guide to select colleges according to one's budget.
+
+
+
+## Graduation rate analysis
+
+We tried to see how many enrolled students graduate within 4 years
+```{r}
+ggplot(drvgr2019_B, aes(drvgr2019_B$GBA4RTT)) + geom_histogram(col=I("black"), bins = 25) + xlab("Graduation rate - Bachelor degree within 4 years")+ geom_point(data = drvgr2019_B[drvgr2019_B$UNITID %in% acc20$UNITID,],aes(0, x=GBA4RTT,color="Top_colleges"), alpha = 0.8, fill = "red", shape=23,size=1)+ theme_gray()+ scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red'))+ ylab("Count")+ggtitle("Graduation rate of colleges")
+```
+
+This shows that majority of the students of top colleges (with low acceptance rates) graduate within 4 years. The 4 year graduation rate is significantly higher in top colleges compared to the rest. Most colleges have graduation rates below 50% whereas top colleges often have graduation rates above 75%.
+
+Comparing the graduation rates between men and women:
 
 ```{r}
-g1 <- ggplot(drvgr2019_A, aes(drvgr2019_A$GRRTM, drvgr2019_A$GRRTW))+ geom_point() + xlab("Graduation rate, men") + ylab("Graduation rate, women")
+g1 <- ggplot(drvgr2019_A, aes(drvgr2019_A$GRRTM, drvgr2019_A$GRRTW))+ geom_point() + xlab("Graduation rate, men") + ylab("Graduation rate, women")+
+  geom_abline(slope=1, color="yellow", size=1) + ggtitle("Graduation rate of women vs men")
 g1
-#g1 + geom_smooth(aes(drvgr2019$GRRTM, drvgr2019$GBA4RTT, colour='Graduation rate  within 4 years')) + scale_colour_manual(name="legend", values=c("blue"))
-
-g3 <- ggplot(drvgr2019_B, aes(drvgr2019_B$GBA4RTT)) + geom_histogram(col=I("black"), bins = 20) + xlab("Graduation rate - Bachelor degree within 4 years, total
-")
-g3 + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-
 ```
 
+Most of the points lie above the y=x line, showing that graduation rates for women are greater than men in a majority of the colleges. The data also shows rounding, as percentages are often rounded to the nearest integer.
 
+
+## Institutional aids and grants
+
+We visualized the Average amount of institutional grant aid awarded to full-time first-time undergraduates and Number of full-time first-time undergraduates awarded  institutional grant aid for each college.
 
 ```{r}
-ggplot(sfa1819_p1, aes(sfa1819_p1$IGRNT_A, sfa1819_p1$IGRNT_N)) + geom_point(size = 1)
+ggplot(sfa1819_p1, aes(sfa1819_p1$IGRNT_A, sfa1819_p1$IGRNT_N)) + geom_point(size = 1) +geom_point(data = sfa1819_p1[sfa1819_p1$UNITID %in% acc20$UNITID,],aes(x=IGRNT_A, y=IGRNT_N,color="Top_colleges"), alpha = 0.8, fill = "red", shape=23,size=1)+ theme_gray() + scale_color_manual(name = "Legend", breaks="Top_colleges", values=c('Top_colleges'='red')) + xlab('Average amount of institutional grant in $') + ylab("Number of students awarded institutional grants") + ggtitle("Institutional grant amounts and number of students")
 
 ```
 
 We can observe that the colleges that award grant aid to large number of students tend to give a lower amount of aid and colleges that give high amount of aid, award grants to low number of students.
+Further, majority of the top colleges give the highest amount of grants but to lower number of students. This is again in support of the top colleges, as they give their students higher grants.

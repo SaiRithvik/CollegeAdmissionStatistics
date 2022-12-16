@@ -90,11 +90,34 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources-1"><i class="fa fa-check"></i><b>3.1</b> Sources</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
-<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#tables-ic2019_ay-sfa1819_p1-drvgr2019-hd2019"><i class="fa fa-check"></i><b>3.3.1</b> Tables: IC2019_AY, SFA1819_P1, DRVGR2019, HD2019</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#table-adm2019"><i class="fa fa-check"></i><b>3.3.2</b> Table: ADM2019</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data.html"><a href="data.html#table-ef2019a-ef2019d"><i class="fa fa-check"></i><b>3.3.3</b> Table: EF2019A, EF2019D</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#gender-diversity-analysis"><i class="fa fa-check"></i><b>4.1</b> Gender diversity Analysis</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#acceptance-rate"><i class="fa fa-check"></i><b>4.2</b> Acceptance rate</a></li>
+<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#admission-yield"><i class="fa fa-check"></i><b>4.3</b> Admission yield</a></li>
+<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#test-scores"><i class="fa fa-check"></i><b>4.4</b> Test Scores</a></li>
+<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#application-requirements"><i class="fa fa-check"></i><b>4.5</b> Application requirements</a></li>
+<li class="chapter" data-level="4.6" data-path="results.html"><a href="results.html#racial-diversity-analysis"><i class="fa fa-check"></i><b>4.6</b> Racial diversity analysis</a></li>
+<li class="chapter" data-level="4.7" data-path="results.html"><a href="results.html#student-faculty-ratio"><i class="fa fa-check"></i><b>4.7</b> Student-Faculty Ratio</a></li>
+<li class="chapter" data-level="4.8" data-path="results.html"><a href="results.html#cost-of-attendance-analysis"><i class="fa fa-check"></i><b>4.8</b> Cost of attendance analysis</a></li>
+<li class="chapter" data-level="4.9" data-path="results.html"><a href="results.html#graduation-rate-analysis"><i class="fa fa-check"></i><b>4.9</b> Graduation rate analysis</a></li>
+<li class="chapter" data-level="4.10" data-path="results.html"><a href="results.html#institutional-aids-and-grants"><i class="fa fa-check"></i><b>4.10</b> Institutional aids and grants</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#main-takeaways"><i class="fa fa-check"></i><b>6.1</b> Main takeaways</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#limitations"><i class="fa fa-check"></i><b>6.2</b> Limitations</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusion.html"><a href="conclusion.html#future-directions"><i class="fa fa-check"></i><b>6.3</b> Future directions</a></li>
+<li class="chapter" data-level="6.4" data-path="conclusion.html"><a href="conclusion.html#lessons-learned"><i class="fa fa-check"></i><b>6.4</b> Lessons learned</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -118,65 +141,112 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources-1" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The U.S. Department of Education’s National Center for Education Statistics (NCES) collects the data annually.</p>
-<p>It is collected by conducting several interrelated surveys from about 6,400 colleges, universities, and technical and vocational institutions that participate in the federal student aid programs.</p>
-<p>Basic information about the dataset:</p>
-<p>We have a Microsoft access database which contains multiple csv files. We use some of the files to analyze and draw conclusions to answer our question.</p>
+<p>In our search for US colleges statistics, we focused on the US colleges’ admission process. The U.S. Department of Education’s National Center for Education Statistics (NCES) collects such data annually. We decided to analyze Integrated Postsecondary Education Data System (IPEDS) data from the National Center for Education Statistics (NCES), which contains all the college-level information we need. It is collected by conducting several interrelated surveys from about 6,400 colleges, universities, and technical and vocational institutions that participate in the federal student aid programs, hence we decided this is reliable and adequate data for our analysis.</p>
+<p>The other datasets we found were subsets of this data. This was the most extensive dataset that could be used to analyze, explore and visualize, to answer our question of “How do we select the ideal college for our higher education?”</p>
+<p>For each year, NCES releases the data twice - the first being provisional data and then the final data. The provisional data has been said to undergo all the NCES data quality control procedures. This is released after each year. The final data includes the revisions institutions make. This is released after two years.</p>
+<p>Since the data itself is collected from surveys answered by institutions, there is an inherent unsureness/skepticism about the correctness of the data. As we saw this year, Columbia University acknowledged giving false data for the US News ranking, attributing it to outdated methodologies. For our purpose, we assume the correctness of the data reported in surveys.</p>
+<p>We can contact <a href="https://nces.ed.gov/help/webmail/">NCES</a> if we have any questions about the data that is collected.</p>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We use the odbcDriverConnect function from the RODBC library to transform the data from access database format into a usable dataframe in R. We didn’t require any data cleaning or transformation before EDA.</p>
+<p>We are using the tables ADM2019, HD2019, IC2019_AY, SFA1819_P1, DRVGR2019, EF2019A, and EF2019D from the access database to perform EDA and visualize trends in the data.</p>
+<p>ADM2019: This table contains information about the undergraduate selection process for entering first-time, degree/certificate-seeking students. This includes information about admission considerations, applicants, applicants that were admitted, and admitted students who enrolled. SAT and ACT test scores are included for institutions, that require test scores for admission. These data are applicable for institutions that do not have an open admissions policy for entering first-time students. Writing scores for both SAT and ACT are no longer collected.</p>
+<p>HD2019: This table contains directory information for every institution in the 2019 IPEDS universe. Includes name, address, city, state, zip code and various other information. We used it to match state and institute name with UNITID (which is used in all other tables).</p>
+<p>IC2019_AY: This table contains data on student charges for a full academic year. The price of attendance of full-time first-time undergraduates that are made available to the public on College Navigator are included in this table. Price of attendance includes amounts for published tuition and required fees, books and supplies, room and board and other expenses.</p>
+<p>SFA1819_P1: This table contains data on the number of full-time, first-time degree/certificate-seeking undergraduate students and all undergraduate students who receive different types of student financial aid, including grants and loans, from different sources at each institution.</p>
+<p>DRVGR2019: Table contains the graduation rates derived from the graduation rate data for selected cohorts. Graduation rates grouped by gender are also provided.</p>
+<p>EF2019A: This table contains the number of students enrolled in the fall, by race/ethnicity, gender, attendance (full- or part-time) status and level of student. Each record will contain the total enrollment, enrollment for men and women, and the total enrollment and enrollment for men and women for all nine race/ethnicity categories.</p>
+<p>EF2019D: This table contains data on the total entering class, first-year retention rates and the student-to-faculty ratio. Student-to-faculty ratio is defined as total FTE students not in graduate or professional programs divided by total FTE instructional staff not teaching in graduate or professional programs. All data in this table are applicable only to institutions with undergraduate students.</p>
+<p>Retrieving data from Microsoft Access Database:
+We need to install the 64-bit database engine from: <a href="https://www.microsoft.com/en-US/download/details.aspx?id=13255">microsoft</a>.
+This download will install a set of components that can be used to facilitate transfer of data between 2010 Microsoft Office System files and non-Microsoft Office applications.
+We use the odbcDriverConnect function from the RODBC library to transform the data from access database format into a usable dataframe in R. We didn’t require any data cleaning or transformation before EDA.</p>
+<p><strong>For any clarification on the variable names or levels of categorical variables and what they represent, please see documentation in ‘IPEDS201920TableDocs.xlsx’, in ‘IPEDS_2019-20_Final’ folder</strong></p>
 </div>
 <div id="missing-value-analysis" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Missing value analysis<a href="data.html#missing-value-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>## [1] &quot;Missing values in ADM2019&quot;</code></pre>
 <pre><code>## ACTEN25 ACTEN75 ACTMT25 ACTMT75 SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75  SATNUM  SATPCT  ACTNUM  ACTPCT ENRLPTM ENRLPTW  ENRLPT ENRLFTM 
 ##     840     840     840     840     791     791     791     791     757     757     722     722     722     722     588     535     523     148 
 ## ENRLFTW   ENRLM   ENRLW ADMSSNW ADMSSNM  ENRLFT   ENRLT  ADMSSN  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9 
 ##     127     115     111     104      94      39      23      18       0       0       0       0       0       0       0       0       0       0 
 ##  APPLCN APPLCNM APPLCNW 
 ##       0       0       0</code></pre>
+<pre><code>## [1] &quot;Missing values in IC2019_AY&quot;</code></pre>
 <pre><code>## CHG3AY3 CHG2AY3  UNITID 
 ##     458     458       0</code></pre>
+<pre><code>## [1] &quot;Missing values in SFA1819_P1&quot;</code></pre>
 <pre><code>## IGRNT_A IGRNT_N IGRNT_P  UNITID 
 ##    1922     294     294       0</code></pre>
+<pre><code>## [1] &quot;Missing values in DRVGR2019&quot;</code></pre>
 <pre><code>## GBA4RTT   GRRTW   GRRTM  UNITID 
 ##    3499    1774    1773       0</code></pre>
+<pre><code>## [1] &quot;Missing values in HD2019&quot;</code></pre>
 <pre><code>## UNITID INSTNM STABBR 
 ##      0      0      0</code></pre>
-<p>Duplicates</p>
+<pre><code>## [1] &quot;Total missing values in EF2019A&quot;</code></pre>
 <pre><code>## [1] 0</code></pre>
+<pre><code>## [1] &quot;Total missing values in EF2019D&quot;</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>Checking for duplicate rows</p>
+<pre><code>## [1] &quot;Duplicates in ADM2019&quot;</code></pre>
 <pre><code>## [1] 0</code></pre>
+<pre><code>## [1] &quot;Duplicates in IC2019_AY&quot;</code></pre>
 <pre><code>## [1] 0</code></pre>
+<pre><code>## [1] &quot;Duplicates in SFA1819_P1&quot;</code></pre>
 <pre><code>## [1] 0</code></pre>
+<pre><code>## [1] &quot;Duplicates in DRVGR2019&quot;</code></pre>
 <pre><code>## [1] 0</code></pre>
-<p>Using plot_missing from redav library:
-(The function outputs a graph with overlapping axes and we were not able to read the x-labels. So we copy-pasted the code and rotated the x axis labels by 90 degrees, and changes the size of labels accordingly for our data)</p>
+<pre><code>## [1] &quot;Duplicates in HD2019&quot;</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre><code>## [1] &quot;Duplicates in EF2019D&quot;</code></pre>
+<pre><code>## [1] 0</code></pre>
+<div id="tables-ic2019_ay-sfa1819_p1-drvgr2019-hd2019" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Tables: IC2019_AY, SFA1819_P1, DRVGR2019, HD2019<a href="data.html#tables-ic2019_ay-sfa1819_p1-drvgr2019-hd2019" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Firstly, we deal with missing values in IC2019_AY, SFA1819_P1, DRVGR2019. For this step, we use plot_missing function from redav library.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="finalproj_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
-<pre><code>##  UNITID CHG3AY3 CHG2AY3 
-##       0       0       0</code></pre>
-<pre><code>##  UNITID IGRNT_N IGRNT_P IGRNT_A 
-##       0       0       0       0</code></pre>
-<pre><code>## GBA4RTT  UNITID   GRRTM   GRRTW 
-##    1763       0       0       0</code></pre>
-<pre><code>##   GRRTW   GRRTM  UNITID GBA4RTT 
-##     105      55       0       0</code></pre>
-<pre><code>## UNITID INSTNM STABBR 
-##      0      0      0</code></pre>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" />
-ENRLT is the total number of enrolled students, and ENRLM is the total number of enrolled men; the rows starting with SAT and ACT give the 25th percentile and 75th percentile scores in tests, and these are a main part of our analysis. Without these values, we cannot form meaningful hypotheses, so we are removing the schools that didn’t provide these data.</p>
+<p>We remove all the rows with missing values in IC2019_AY, SFA1819_P1. But, in the case of DRVGR2019, there are a lot of rows with missing values only from column GBA4RTT(Graduation rate - Bachelor degree within 4 years, total). Hence, we will create two dataframes. One which removes missing values from men and women graduation rates to analyze. Next, we remove the missing values in total graduation rate to analyze the total statistics.
+Next, we save the cleaned datasets in the Data folder to use for further analysis.</p>
+<pre><code>## [1] &quot;Number of rows, columns in IC2019_AY&quot;</code></pre>
+<pre><code>## [1] 3535    3</code></pre>
+<pre><code>## [1] &quot;Number of rows, columns in SFA1819_P1&quot;</code></pre>
+<pre><code>## [1] 3987    4</code></pre>
+<pre><code>## [1] &quot;Number of rows, columns in DRVGR2019_A&quot;</code></pre>
+<pre><code>## [1] 3659    4</code></pre>
+<p>In total, there are 8 continuous variables in the 3 tables (IC2019_AY, SFA1819_P1, DRVGR2019_A) combined, and a UNITID column which is the ID for each college.
+HD2019 has no missing values and has 2 categorical variables and UNITID columns.</p>
+</div>
+<div id="table-adm2019" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Table: ADM2019<a href="data.html#table-adm2019" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now, we deal with the missing values in ADM2019 table. First we use the plot_missing function from redav library to visualize missing patterns.
+(The function outputs a graph with overlapping axes and we were not able to read the x-labels. So we copy-pasted the code and rotated the x axis labels by 90 degrees, and changes the size of labels accordingly for our data)</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>ENRLT is the total number of enrolled students, and ENRLM is the total number of enrolled men; the rows starting with SAT and ACT give the 25th percentile and 75th percentile scores in tests, and these are a main part of our analysis. Without these values, we cannot form meaningful hypotheses, so we are removing the schools that didn’t provide these data. After this, our missing values look like this:</p>
 <pre><code>## ENRLPTM ENRLPTW  ENRLPT   ENRLW ENRLFTM ENRLFTW ADMSSNW  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN 
 ##     187     186     184       3       3       3       2       0       0       0       0       0       0       0       0       0       0       0 
 ## APPLCNM APPLCNW  ADMSSN ADMSSNM   ENRLT   ENRLM  ENRLFT  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 
 ##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
 ## ACTEN75 ACTMT25 ACTMT75 
 ##       0       0       0</code></pre>
-<p>The majority missing values are in Part time student enrollment statistics. These are not very pertinent to our analysis, so we are dropping these columns. Enrollment of men and total enrollment determine the women enrollment, so dropping this column too, and calculating it using (Total enrollment - men enrollment) instead. After this, only missing values are 3 rows in full-time enrollment of men. These 3 rows are dropped to get a cleaned dataframe.</p>
-<pre><code>##  UNITID ADMCON1 ADMCON2 ADMCON3 ADMCON4 ADMCON5 ADMCON6 ADMCON7 ADMCON8 ADMCON9  APPLCN APPLCNM APPLCNW  ADMSSN ADMSSNM ADMSSNW   ENRLT   ENRLM 
-##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0 
-##   ENRLW  ENRLFT ENRLFTM ENRLFTW  SATNUM  SATPCT  ACTNUM  ACTPCT SATVR25 SATVR75 SATMT25 SATMT75 ACTCM25 ACTCM75 ACTEN25 ACTEN75 ACTMT25 ACTMT75 
-##       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0</code></pre>
-<p>There are tables that have processed admission statistics like percent yields in admission for each gender, but we are using the raw data collected from the survey and analyzing.</p>
+<p>The majority missing values are in Part time student enrollment statistics. These are not very pertinent to our analysis, so we are dropping these columns. Enrollment of men and total enrollment determine the women enrollment (based on responses from majority colleges), so dropping this column too, and calculating it using (Total enrollment - men enrollment) instead. After this, only missing values are 3 rows in full-time enrollment of men. These 3 rows are dropped to get a cleaned dataframe. This dataset is now saved in the Data folder for further analysis.</p>
+<pre><code>## [1] &quot;Number of rows, columns in ADM2019&quot;</code></pre>
+<pre><code>## [1] 1089   36</code></pre>
+<p>In this table, there are 9 categorical variables, and 26 continuous variables and a UNITID column which is the ID for each college.</p>
+</div>
+<div id="table-ef2019a-ef2019d" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Table: EF2019A, EF2019D<a href="data.html#table-ef2019a-ef2019d" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As seen earlier, there is no missing value in EF2019A table, the dataset is directly saved in the Data folder.
+As seen earlier, there is one missing value in EF2019D table, we dropped it to clean the dataset and saved it in the Data folder.</p>
+<pre><code>## [1] &quot;Number of rows, columns in EF2019A&quot;</code></pre>
+<pre><code>## [1] 118917     35</code></pre>
+<pre><code>## [1] &quot;Number of rows, columns in EF2019D&quot;</code></pre>
+<pre><code>## [1] 5884    2</code></pre>
+<p>There are 4 categorical variables and 30 continuous variables in the EF2019A table, and 1 continuous variable in the EF2019D table, along with the UNITID column.</p>
+<p>In total, our datasets have 15 categorical variables and 65 continuous variables (some of these are dependent on other variables) and a common UNITID column for each college.</p>
+<p>Note:
+There are other tables that have processed admission statistics like percent yields in admission for each gender, etc, but we are using the raw data tables collected from the surveys only, and analysing this data.</p>
 
+</div>
 </div>
 </div>
             </section>

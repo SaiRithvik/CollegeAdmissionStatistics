@@ -1,0 +1,98 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Final project</title>
+		<script src="https://d3js.org/d3.v7.js"></script>  <!-- link to D3 library -->
+
+
+	</head>
+
+	<body>
+	  <h1> SAT score vs ACT score </h1>
+
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+
+
+
+
+// set the dimensions and margins of the graph
+const margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+const svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          `translate(${margin.left}, ${margin.top})`);
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/Saili-Myana/Admission_data/main/adm2019clean.csv").then( function(data) {
+
+  // Add X axis
+  const x = d3.scaleLinear()
+    .domain([15, 36])
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x));
+
+  // Add Y axis
+  const y = d3.scaleLinear()
+    .domain([800, 1600])
+    .range([ height, 0]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+var tip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+ 
+  // Add dots
+  svg.append('g')
+    .selectAll("dot")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("class", function (d) { return  d.UNITID } )
+      .attr("class2", function (d) { return  d.ADMCON1 } )
+      .attr("class3", function (d) { return  d.ADMCON5 } )
+      .attr("class4", function (d) { return  d.ADMCON7 } )
+      .attr("class5", function (d) { return  d.INSTNM } )
+      .attr("cx", function (d) { return x(d.ACTCM75); } )
+      .attr("cy", function (d) { return y(d.SAT_75); } )
+      .attr("r", 3)
+      
+      .on("mouseover", function(event) {
+  
+  const rad = d3.select(event.currentTarget).attr("class5");
+  const rad2 = d3.select(event.currentTarget).attr("class2");
+  const rad3 = d3.select(event.currentTarget).attr("class3");
+  const rad4 = d3.select(event.currentTarget).attr("class4");
+  tip.style("opacity", 1)
+     .text(`${rad}: Secondary school GPA requirement: ${rad2}; Recommendations requirement: ${rad3}; Test Score requirement: ${rad4}`)
+     .style("left", (d3.pageX-25) + "px")
+     .style("top", (d3.pageY-75) + "px")
+  })
+  .on("mouseout", function(d) {
+    tip.style("opacity", 0)
+  })
+ 
+
+})
+</script>
+
+	</body>
+
+</html>

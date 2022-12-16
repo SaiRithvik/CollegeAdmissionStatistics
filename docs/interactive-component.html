@@ -90,11 +90,34 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="data.html"><a href="data.html#sources-1"><i class="fa fa-check"></i><b>3.1</b> Sources</a></li>
 <li class="chapter" data-level="3.2" data-path="data.html"><a href="data.html#cleaning-transformation"><i class="fa fa-check"></i><b>3.2</b> Cleaning / transformation</a></li>
-<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a></li>
+<li class="chapter" data-level="3.3" data-path="data.html"><a href="data.html#missing-value-analysis"><i class="fa fa-check"></i><b>3.3</b> Missing value analysis</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data.html"><a href="data.html#tables-ic2019_ay-sfa1819_p1-drvgr2019-hd2019"><i class="fa fa-check"></i><b>3.3.1</b> Tables: IC2019_AY, SFA1819_P1, DRVGR2019, HD2019</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data.html"><a href="data.html#table-adm2019"><i class="fa fa-check"></i><b>3.3.2</b> Table: ADM2019</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data.html"><a href="data.html#table-ef2019a-ef2019d"><i class="fa fa-check"></i><b>3.3.3</b> Table: EF2019A, EF2019D</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>4</b> Results</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results.html"><a href="results.html#gender-diversity-analysis"><i class="fa fa-check"></i><b>4.1</b> Gender diversity Analysis</a></li>
+<li class="chapter" data-level="4.2" data-path="results.html"><a href="results.html#acceptance-rate"><i class="fa fa-check"></i><b>4.2</b> Acceptance rate</a></li>
+<li class="chapter" data-level="4.3" data-path="results.html"><a href="results.html#admission-yield"><i class="fa fa-check"></i><b>4.3</b> Admission yield</a></li>
+<li class="chapter" data-level="4.4" data-path="results.html"><a href="results.html#test-scores"><i class="fa fa-check"></i><b>4.4</b> Test Scores</a></li>
+<li class="chapter" data-level="4.5" data-path="results.html"><a href="results.html#application-requirements"><i class="fa fa-check"></i><b>4.5</b> Application requirements</a></li>
+<li class="chapter" data-level="4.6" data-path="results.html"><a href="results.html#racial-diversity-analysis"><i class="fa fa-check"></i><b>4.6</b> Racial diversity analysis</a></li>
+<li class="chapter" data-level="4.7" data-path="results.html"><a href="results.html#student-faculty-ratio"><i class="fa fa-check"></i><b>4.7</b> Student-Faculty Ratio</a></li>
+<li class="chapter" data-level="4.8" data-path="results.html"><a href="results.html#cost-of-attendance-analysis"><i class="fa fa-check"></i><b>4.8</b> Cost of attendance analysis</a></li>
+<li class="chapter" data-level="4.9" data-path="results.html"><a href="results.html#graduation-rate-analysis"><i class="fa fa-check"></i><b>4.9</b> Graduation rate analysis</a></li>
+<li class="chapter" data-level="4.10" data-path="results.html"><a href="results.html#institutional-aids-and-grants"><i class="fa fa-check"></i><b>4.10</b> Institutional aids and grants</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>5</b> Interactive component</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
+<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="conclusion.html"><a href="conclusion.html#main-takeaways"><i class="fa fa-check"></i><b>6.1</b> Main takeaways</a></li>
+<li class="chapter" data-level="6.2" data-path="conclusion.html"><a href="conclusion.html#limitations"><i class="fa fa-check"></i><b>6.2</b> Limitations</a></li>
+<li class="chapter" data-level="6.3" data-path="conclusion.html"><a href="conclusion.html#future-directions"><i class="fa fa-check"></i><b>6.3</b> Future directions</a></li>
+<li class="chapter" data-level="6.4" data-path="conclusion.html"><a href="conclusion.html#lessons-learned"><i class="fa fa-check"></i><b>6.4</b> Lessons learned</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -116,6 +139,17 @@
             <section class="normal" id="section-">
 <div id="interactive-component" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Interactive component<a href="interactive-component.html#interactive-component" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We first added the college names to the corresponding ADM2019 rows.</p>
+<p>In the below interactive plot, you can select a data point around your SAT/ACT score. Hovering over nearby points will display the college name, and few of the admission requirements for the college. The legend to understand the requirements is below the plot.</p>
+<p>NULLsvgvar d3Script = function(d3, r2d3, data, svg, width, height, options, theme, console) {
+this.d3 = d3;</p>
+<p>svg = d3.select(svg.node());
+<iframe src="edavd3.html" width="460" height="400"></iframe>
+};5#FFFFFF#000000#FFFFFF#000000TRUETRUEFALSETRUEFALSETRUEd3v55.9.2C:/Users/kanak/AppData/Local/R/win-library/4.2/r2d3/www/d3/5.9.2d3.min.jsTRUE</p>
+<p>1: Required;
+2: Recommended;
+3: Neither required nor recommended;
+5: Considered but not required;</p>
 
 </div>
             </section>

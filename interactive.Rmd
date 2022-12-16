@@ -1,3 +1,30 @@
 # Interactive component
 
+We first added the college names to the corresponding ADM2019 rows.
+```{r}
+hd2019 <- read.csv("./Data/hd2019.csv")
+adm2019 <- read.csv("./Data/adm2019.csv")
+#nrow(adm2019)
+newhd2019 <- filter(hd2019, UNITID %in% adm2019$UNITID)
+#nrow(newhd2019)
+newhd2019 <- newhd2019[order(newhd2019$UNITID),]
+adm2019 <- adm2019 [order(adm2019 $UNITID),]
+adm2019$INSTNM <- newhd2019$INSTNM
+write.csv( adm2019, "./Data/newadm2019.csv", row.names=FALSE)
+```
 
+In the below interactive plot, you can select a data point around your SAT/ACT score. Hovering over nearby points will display the college name, and few of the admission requirements for the college. The legend to understand the requirements is below the plot. 
+
+```{r}
+library(r2d3)
+```
+
+```{d3 }
+<iframe src="edavd3.html" width="460" height="400"></iframe>
+```
+
+
+1: Required;
+2: Recommended;
+3: Neither required nor recommended;
+5: Considered but not required;

@@ -7,4 +7,15 @@ site: bookdown::bookdown_site
 
 # Introduction
 
-Every year, thousand of students from all over the world apply to the universities in the US. 
+Every year, thousand of students from all over the world apply to the universities in the US. Both of us being from India, the college admission process is very different in the US. In India, one standardized test is used to decide what college and major you get to do. But the college admission process in the US is more holistic, and includes diverse assessment, both quantitative and qualitative, of each students profile. This prompted the question - How do we select the ideal college for our higher education?, as opposed to in India, where the college options are limited based on your test scores.
+
+Both of us being International students, the university shortlisting process of applying for higher education was grueling. We grappled with the 
+question of selecting the best university according to our needs and, further, what are our chances of getting into such universities. For this purpose, it is common to use rankings given by reputed organizations based on academics or even other rankings based on Return on Investments. Nonetheless, these rankings aren’t extensive enough to meet our precise requirements, and we end up doing our own research.
+This leads us to our research topic, “Comparing college statistics.”
+
+The project can be unraveled into a two-pronged problem: 
+1. How do colleges compare in terms of academic resources, research, finances, and other factors impacting the competitiveness of a university?
+2. How do admitted students of top colleges compare? 
+
+For the first part, we analyze the data of tuition fees, financial aid given, number of applicants, application requirements (GPA/recommendations/secondary schools), acceptance rate, student-to-faculty ratios, graduation rates, and other factors.
+For the second part, we analyze the SAT and ACT test scores of admitted students along with the student demographics (gender, race/ethnicity) for different degree levels.

@@ -1,2 +1,19 @@
 # Conclusion
 
+
+## Main takeaways
+We have answered the question of comparing colleges to a great extent. We have compared the top colleges against the rest in factors such as grants given, tuition fees and other costs, Student-faculty ratios, graduation rates, gender and racial diversity, acceptance rates and admission yields. We also understood the general requirements of colleges with respect to the secondary school rank, recommendations and submission of test scores of applicants. We further tried to answer how admitted students of top colleges look like, using the test scores on the interactive plot. You can find schools that have applicants with test scores close to yours, to explore colleges where you will have a good chance of getting admitted.
+
+
+## Limitations
+Out of all the tables we used, ADM2019 table contained some of our important plots like SAT and ACT scores, acceptance rates, admission yields and various admission requirements like GPA, recommendations etc. But less than 50% of the rows were complete. Further, about 18% of the rows had missing test scores, which were the basis of our interactive component. We had no way to impute these values, so we dropped those rows, resulting in many known colleges not showing up in our plots.
+
+## Future directions
+We did not analyse all the features of our datasets. We had the 25th percentile test scores, type of colleges like public/private, library resources, and many more features are still left unexplored. We can further clean the remaining tables and analyse them.
+
+We have the same type of data over the years, and analysing the trends of this data as time changes is the next step to explore.
+
+In the interactive plot, we want to further try to create a composite dashboard, where you can see acceptance rates, demographics of the college selected, etc. Our interactive component is a good starting point for a tool that can help college applicants shortlist colleges based on their interest.
+
+## Lessons learned
+Our datasets was not a single document but a compilation of many tables from different surveys. This made our data cleaning process challenging, as we needed to deal with every table in a different way. We learnt to combine such data from different sources to form cohesive observations. 
