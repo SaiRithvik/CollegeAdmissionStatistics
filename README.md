@@ -8,7 +8,7 @@ The project can be unraveled into a two-pronged problem:
 1. How do colleges compare in terms of academic resources, research, finances, and other factors impacting the competitiveness of a university?
 2. How do admitted students of top colleges compare? 
 
-
+Here is the link to the book: https://sairithvik.github.io/CollegeAdmissionStatistics/interactive-component.html
 
 *This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.*	
 
